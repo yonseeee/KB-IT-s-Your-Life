@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script>
+      function getPokemonTypeInfo(type) {
+        if (type == '불') {
+          return '🔥 불 타입 포켓몬은 강한 공격력을 가지고 있어!';
+        } else if (type == '물') {
+          return '💧 물 타입 포켓몬은 유연한 전투 스타일을 가지고 있어!';
+        } else if (type == '전기') {
+          return '🌿 풀 타입 포켓몬은 회복 능력이 뛰어나!';
+        } else {
+          return '🤔 알 수 없는 타입이네!';
+        }
+      }
+
+      console.log(getPokemonTypeInfo('불'));
+      console.log(getPokemonTypeInfo('물'));
+      console.log(getPokemonTypeInfo('전기'));
+      console.log(getPokemonTypeInfo('땅'));
+    </script>
+  </head>
+  <body></body>
+</html>
