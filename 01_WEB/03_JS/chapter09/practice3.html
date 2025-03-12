@@ -5,25 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <script>
-      let pikachu = { name: '피카츄', hp: 100, attack: 20 };
-      let charmander = { name: '파이리', hp: 80, attack: 15 };
-
       function attackPokemon(attacker, defender) {
         defender.hp -= attacker.attack;
 
         if (defender.hp <= 0) {
           console.log(defender.name + '이(가) 쓰러졌다!');
-          return;
+        } else {
+          console.log(
+            attacker.name +
+              '이(가) ' +
+              defender.name +
+              '를 공격했다! 남은 체력 : ' +
+              defender.hp
+          );
         }
-        console.log(
-          attacker.name +
-            '이(가) ' +
-            defender.name +
-            '를 공격했다! 남은 체력 : ' +
-            defender.hp
-        );
       }
-
+      let pikachu = { name: '피카츄', hp: 100, attack: 20 };
+      let charmander = { name: '파이리', hp: 80, attack: 15 };
       attackPokemon(pikachu, charmander);
       attackPokemon(charmander, pikachu);
       attackPokemon(pikachu, charmander);
