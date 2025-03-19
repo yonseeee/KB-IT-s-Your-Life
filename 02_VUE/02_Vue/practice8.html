@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="app">
+      <h1>마음 속 이유(여러 개 선택하시오)</h1>
+
+      <template
+        v-for="(
+        reason, index) in reasons"
+        :key="index"
+      >
+        <label
+          ><input type="checkbox" :value="reason" v-model="selected" />
+          {{reason}}</label
+        >
+      </template>
+      <br />
+      선택 항목({{selected.length}}개): {{selected.join(',')}}
+    </div>
+
+    <script src="https://unpkg.com/vue"></script>
+    <script>
+      let vm = Vue.createApp({
+        name: 'App',
+        data() {
+          return {
+            reasons: [
+              '웃을 때 예뻐서',
+              '마음이 따뜻해서',
+              '함께 있으면 편안해서',
+              '내 편이 되어줘서',
+              '배려심이 깊어서',
+            ],
+            selected: [],
+          };
+        },
+      }).mount('#app');
+    </script>
+  </body>
+</html>
