@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="app">
+      1보다 큰 수:
+      <input
+        type="
+        text"
+        v-model.number="num"
+      />
+      <br />
+      <!-- computed 값 사용시에는 return받은 값으로 변수처럼 쓰인다 -->
+      1부터 입력한 값까지의 합: <span>{{sum}}</span><br />
+      1부터 입력한 값까지의 합: <span>{{sum}}</span><br />
+      1부터 입력한 값까지의 합: <span>{{sum}}</span><br />
+    </div>
+
+    <script src="https://unpkg.com/vue"></script>
+    <script>
+      let vm = Vue.createApp({
+        name: 'App',
+        data() {
+          return { num: 0 };
+        },
+        //computed: 계산된 값을 의미한다.
+        // 같은 값을 호출핳면 캐싱된 값을 가져오지만,
+        // 안에 있는 Vue data가 변경되면 다시 계산한다(num)
+        computed: {
+          sum() {
+            // this는 뷰 인스턴스를 가리킨다
+            console.log('## num: ' + this.num); //현재 컴포턴트의 인스턴스(vm)가 this->data옵션에 있는 num을 가르킴
+            let n = parseInt(this.num);
+            // 숫자가 아닌 값이 들어올 경우 0 처리
+            if (Number.isNaN(n)) return 0;
+            // n까지의 합 구하는 공식
+            return (n * (n + 1)) / 2;
+          },
+        },
+      }).mount('#app');
+    </script>
+  </body>
+</html>

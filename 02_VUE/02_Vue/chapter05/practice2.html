@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="app">
+      <input type="button" value="엘더 지팡이" @click="check" />
+      <input type="button" value="단풍 지팡이" @click="check" />
+      <input type="button" value="벚나무 지팡이" @click="check" />
+      <input type="button" value="지팡이 초기화" @click="check" />
+
+      <p v-if="flag==='c'">💙 {{selected}}를 선택했습니다!</p>
+      <p v-else-if="flag==='a'">
+        💦이미 {{selected}}를 선택했습니다. 다른 지팡이를 선택하세요!
+      </p>
+      <p v-else>💢 지팡이를 다시 선택해주세요.</p>
+    </div>
+
+    <script src="https://unpkg.com/vue"></script>
+    <script>
+      let vm = Vue.createApp({
+        name: 'App',
+        data() {
+          return {
+            selected: '',
+            result: '',
+            flag: 'a',
+          };
+        },
+        methods: {
+          check(e) {
+            if (this.selected === e.target.value) {
+              console.log('중복');
+              this.flag = 'a';
+            } else if (e.target.value === '지팡이 초기화') {
+              this.selected = '';
+              this.flag = 'b';
+              return;
+            } else {
+              this.selected = e.target.value;
+              this.flag = 'c';
+            }
+          },
+        },
+      }).mount('#app');
+    </script>
+  </body>
+</html>

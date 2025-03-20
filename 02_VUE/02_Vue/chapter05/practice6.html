@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="app">
+      마법이론: <input type="text" v-model.number="magic" /><br />
+      주문실습: <input type="text" v-model.number="mantra" /><br />
+      비행수업: <input type="text" v-model.number="flying" /><br />
+      <input type="button" @click="assess" value="평가하기" /> <br />
+      <br />
+      {{result}}
+    </div>
+
+    <script src="https://unpkg.com/vue"></script>
+    <script>
+      let vm = Vue.createApp({
+        name: 'App',
+        data() {
+          return {
+            magic: 0,
+            mantra: 0,
+            flying: 0,
+            result: '',
+          };
+        },
+        methods: {
+          assess() {
+            if (this.calculateAvg >= 90)
+              this.result = `최우수 합격! (평균: ${this.calculateAvg}점)`;
+            else if (this.calculateAvg >= 70)
+              this.result = `합격 (평균: ${this.calculateAvg}점)`;
+            else this.result = `불합격 (평균: ${this.calculateAvg}점)`;
+          },
+        },
+        computed: {
+          calculateAvg() {
+            return parseInt((this.magic + this.mantra + this.flying) / 3);
+          },
+        },
+        watch: {
+          magic(current, old) {
+            if (current > 100 || current < 0)
+              alert('점수는 0~100 사이로 입력하시오');
+          },
+          mantra(current, old) {
+            if (current > 100 || current < 0)
+              alert('점수는 0~100 사이로 입력하시오');
+          },
+          flying(current, old) {
+            if (current > 100 || current < 0)
+              alert('점수는 0~100 사이로 입력하시오');
+          },
+        },
+      }).mount('#app');
+    </script>
+  </body>
+</html>

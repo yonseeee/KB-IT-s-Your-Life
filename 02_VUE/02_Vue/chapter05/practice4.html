@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="app">
+      마법 주문: <input @keyup.enter="func" type="text" />
+      <p>{{result}}</p>
+    </div>
+
+    <script src="https://unpkg.com/vue"></script>
+    <script>
+      let vm = Vue.createApp({
+        name: 'App',
+        data() {
+          return {
+            mantra: '',
+            result: '',
+            cnt: 0,
+          };
+        },
+        computed: {
+          countUp() {
+            return ++this.cnt;
+          },
+        },
+        methods: {
+          func(e) {
+            if (e.target.value.length < 3)
+              this.result = '올바른 주문을 입력하세요!';
+            else if (this.mantra === e.target.value)
+              this.result = '이미 발사한 주문입니다! 새로운 주문을 입력하세요.';
+            else {
+              this.mantra = e.target.value;
+              this.result = `🍌${this.mantra} 발사! (지금까지 ${this.countUp}회 발사함)`;
+            }
+          },
+        },
+      }).mount('#app');
+    </script>
+  </body>
+</html>
+<!-- computed는 getter의 역할(?) methods->getter/setter -->
+<!-- 이벤트 핸들러는 보통 methods로 -->
+<!-- computed는 매개변수 받지 않는 것 권장 -->
