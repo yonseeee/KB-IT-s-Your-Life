@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .btnColor {
+        background-color: aqua;
+        color: black;
+      }
+      .btnAlign {
+        text-align: center;
+        width: 120px;
+      }
+      .btnBorder {
+        border: 1px dashed khaki;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <!-- checkbox 단일 값 바인딩이라 디폴트로 T/F -->
+      <input type="checkbox" v-model="btnStyle.btnColor" />색상 <br />
+      <input type="checkbox" v-model="btnStyle.btnAlign" />정렬, 크기 <br />
+      <input type="checkbox" v-model="btnStyle.btnBorder" />테두리 <br />
+      <!-- 변수명이 속성명이랑 동일하니까 속성명만 나열 가능 -->
+      <!-- 여러 개의 값들을 객체로 묶어서 바인딩 -->
+      <button class="staticBorder" :class="btnStyle">버튼</button>
+    </div>
+
+    <script src="https://unpkg.com/vue"></script>
+    <script>
+      let vm = Vue.createApp({
+        name: 'App',
+        data() {
+          return {
+            btnStyle: {
+              btnColor: false,
+              btnAlign: false,
+              btnBorder: false,
+            },
+          };
+        },
+      }).mount('#app');
+    </script>
+  </body>
+</html>

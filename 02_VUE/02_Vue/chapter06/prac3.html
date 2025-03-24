@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+      integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <!-- 스타일 마지막에 나의 css 파일 -->
+    <style>
+      .high-score {
+        border: 2px solid green;
+        box-shadow: 2px 2px 2px green;
+      }
+      .medium-score {
+        border: 2px solid orange;
+        box-shadow: 2px 2px 2px orange;
+      }
+      .low-score {
+        border: 2px solid red;
+        box-shadow: 2px 2px 2px red;
+      }
+      .card {
+        padding: 0;
+        margin: 5;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app" class="container mt-3">
+      <h1>세종대 맛집 추천 및 정렬 기능 🍽</h1>
+
+      <div class="d-flex">
+        <div v-for="(item, index) in criterion" :key="index">
+          <button
+            :style="index===activeIndex ? clickStyle:defaultStyle"
+            @click.stop="clickEvent(index)"
+            class="m-2"
+          >
+            <i v-show="index===activeIndex" class="fa-solid fa-check"></i>
+            {{item}}
+          </button>
+        </div>
+      </div>
+
+      <div class="row">
+        <div
+          class="col-md-4"
+          v-for="(restaurant, index) in restaurants"
+          :key="index"
+        >
+          <div
+            class="card m-2"
+            :class="'high-score'"
+            v-if="getAverage(index)>=4.5"
+          >
+            <div class="card-body m-1">
+              <h4>{{restaurant.name}}</h4>
+              <p>💛 평균 평점: {{getAverage(index).toFixed(2)}}</p>
+              <p>👍 리뷰 수: {{restaurant.cnt}}</p>
+            </div>
+          </div>
+          <div
+            class="card m-2"
+            :class="'medium-score'"
+            v-else-if="getAverage(index)>=3.5"
+          >
+            <div class="card-body m-1">
+              <h4>{{restaurant.name}}</h4>
+              <p>💛 평균 평점: {{getAverage(index).toFixed(2)}}</p>
+              <p>👍 리뷰 수: {{restaurant.cnt}}</p>
+            </div>
+          </div>
+          <div class="card m-2" :class="'low-score'" v-else>
+            <div class="card-body m-1">
+              <h4>{{restaurant.name}}</h4>
+              <p>💛 평균 평점: {{getAverage(index).toFixed(2)}}</p>
+              <p>👍 리뷰 수: {{restaurant.cnt}}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/vue"></script>
+    <script>
+      let vm = Vue.createApp({
+        name: 'App',
+        data() {
+          return {
+            activeIndex: null,
+            defaultStyle: {
+              backgroundColor: 'white',
+              color: 'gray',
+              borderRadius: '3px',
+              border: '1px solid gray',
+            },
+            clickStyle: {
+              backgroundColor: 'purple',
+              color: 'white',
+              borderRadius: '3px',
+              border: '1px solid gray',
+              borderWeight: 'bold',
+            },
+            restaurants: [
+              { name: '빠오즈푸', reviews: [4.7, 4.8, 4.6], avg: 4.7, cnt: 20 },
+              { name: '시홍쓰', reviews: [4.2, 4.0, 4.1], avg: 4.15, cnt: 49 },
+              {
+                name: '오사이초밥',
+                reviews: [3.7, 3.6, 3.8],
+                avg: 3.7,
+                cnt: 10,
+              },
+              {
+                name: '은혜즉석떡볶이',
+                reviews: [4.5, 4.6, 4.5],
+                avg: 4.58,
+                cnt: 8,
+              },
+              { name: '우화등선', reviews: [3.2, 3.4, 3.1], avg: 3.23, cnt: 2 },
+              { name: '세종원', reviews: [3.9, 4.0, 3.8], avg: 3.95, cnt: 18 },
+            ],
+            criterion: ['평점 높은순', '평점 낮은순', '리뷰 많은순'],
+          };
+        },
+        computed: {
+          sortArray() {
+            if (this.activeIndex == 1) {
+              this.restaurants.sort((left, right) => {
+                if (left.avg < right.avg) return -1;
+                if (left.avg > right.avg) return 1;
+                return 0;
+              });
+            } else if (this.activeIndex == 0) {
+              this.restaurants.sort((left, right) => {
+                if (left.avg > right.avg) return -1;
+                if (left.avg < right.avg) return 1;
+                return 0;
+              });
+            } else {
+              this.restaurants.sort((left, right) => {
+                if (left.cnt > right.cnt) return -1;
+                if (left.cnt < right.cnt) return 1;
+                return 0;
+              });
+            }
+          },
+        },
+        methods: {
+          getAverage(index) {
+            let sum = 0.0;
+            for (let i = 0; i < 3; i++) {
+              sum += this.restaurants[index].reviews[i];
+            }
+
+            let avg = sum / 3.0;
+            return avg;
+          },
+          clickEvent(index) {
+            this.activeIndex = index;
+            this.sortArray;
+          },
+        },
+      }).mount('#app');
+    </script>
+  </body>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</html>
