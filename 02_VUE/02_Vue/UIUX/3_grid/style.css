@@ -1,0 +1,35 @@
+.grid-container {
+  display: grid;
+  /* 1열 너비 100 2열 너비 100 */
+  grid-template-columns: repeat(3, 100px);
+  /* 1행 너비 100 2행 너비 100 */
+  /* minmax: 아무것도 없으면 100px, 넘어가면 자동으로 크기 조절 */
+  grid-template-rows: repeat(2, minmax(100px, auto));
+  grid-auto-rows: 100px;
+  /* 열 사이를 떨어뜨림 */
+  column-gap: 1rem;
+  row-gap: 1rem;
+}
+.grid-item {
+  color: white;
+  background-color: #ff5252;
+}
+.grid-item:nth-child(2n) {
+  background-color: #bf5252;
+}
+.grid-item:nth-child(3n) {
+  background-color: green;
+}
+
+.grid-item:nth-child(4n) {
+  background-color: orange;
+}
+.item2 {
+  /* grid-column-start: 2;
+  grid-column-end: 4; */
+  /* grid-column: 2/4; */
+  grid-column: 2 / span 2;
+  /* grid-row-start: 1;
+  grid-row-end: 3; */
+  grid-row: 1/3;
+}
