@@ -1,51 +1,68 @@
 <template>
-  <div style="text-align: center">
+  <div>
     <br />
-    <h3>상품 목록 페이지입니다.</h3>
+    <p>상품 목록 페이지입니다.</p>
 
-    <div class="row justify-content-center" id="content">
-      <div class="col-3" v-for="(product, index) in products" :key="index">
+    <div class="row">
+      <div class="col-4 col-sm-3" v-for="(item, index) in items" :key="index">
         <div class="card">
-          <div class="card-body">
-            <img :src="product.image" />
-            <p>{{ product.name }}</p>
-            <p>{{ product.price.toLocaleString() }}원</p>
-            <router-link :to="'/products/' + product.id">상세보기</router-link>
-          </div>
+          <img :src="item.image" />
+          <p>{{ item.name }}</p>
+          <p>{{ item.price.toLocaleString() }}</p>
+          <router-link
+            class="goto-detail"
+            :to="{ name: 'products/id', params: { id: item.id } }"
+            >상세보기</router-link
+          >
+          <br />
         </div>
+
+        <!-- hello -->
       </div>
     </div>
   </div>
 </template>
-<script>
-import products from '@/data/products.json';
 
+<script setup>
+import products from '@/data/products.json';
+const items = products;
+</script>
+<!-- <script>
+import products from '@/data/products.json';
 export default {
-  name: 'Products',
   setup() {
-    return { products };
+    const items = products;
+
+    return { items };
   },
 };
-</script>
+</script> -->
 <style scoped>
-img {
-  width: 150px;
-  margin-bottom: 10px;
+.row {
+  padding: 1rem;
 }
-
-.col-3 {
-  text-align: center;
-  /* margin: 3px; */
-  margin-bottom: 10px;
+.col-4 {
+  margin-bottom: 1rem;
 }
 .card {
-  width: 180px;
-  margin: auto;
-  height: 290px;
+  /* background-color: white; */
+  /* position: relative; */
+  align-items: center;
+  padding: 0;
+
+  height: 100%;
+  /* align-content: center; */
 }
-.row {
+img {
+  width: 100%;
+  padding: 1rem;
+  border-radius: 20px;
 }
 p {
   margin: 0;
+}
+.goto-detail {
+  color: rgb(58, 192, 149);
+  text-decoration: none;
 }
 </style>

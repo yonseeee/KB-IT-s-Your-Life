@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <!-- 웹 접근성(Web Accessibility) -->
+    <!-- 장애 유무, 환경, 연령에 관계 없이 누구나 웹 콘텐츠에 접근하고 이용할 수 있도록 하는 것을 의미 -->
+
+    <div id="custom-button" role="button">확인</div>
+    <!-- div로 작성했지만 role을 줌으로써 시각장애인이 사용하는 스크린 리더기는 버튼으로 인식할 수 있다 -->
+    <style>
+      #custom-button {
+        display: inline-block;
+        background-color: blue;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 10px;
+        cursor: pointer;
+      }
+    </style>
+
+    <!-- 이거는 '확인버튼'이라고 읽어주지만 -->
+    <button>확인</button>
+    <!-- 스크린 리더기는 emoji를 읽지 못함 -->
+    <!-- aria-label: 어떤 용도인지 알려줌 -->
+    <button aria-label="확인">✅</button>
+
+    <h2 id="form-title">회원 가입 양식</h2>
+    <!-- 이 사이에 5줄 코딩 있다고 가정 -->
+    <form aria-labelledby="form-title">
+      <label for="">이메일: <input type="email" /></label>
+    </form>
+
+    <span aria-hidden="true">💛</span>
+    <span>즐겨찾기</span>
+    <hr />
+    <!--aria-expanded-->
+    <!-- true면 확장이 가능한 요소다. false면 확장이 불가능한 요소다 -->
+    <button aria-expanded="false">메뉴</button>
+    <div id="menu">
+      <ul>
+        <li>홈</li>
+        <li>서비스</li>
+      </ul>
+    </div>
+
+    <!-- aria-selected -->
+    <!-- 활성화되어있는 탭이 탭1인 것을 알 수 있다 -->
+    <div class="tablist">
+      <button role="tab" aria-selected="true">탭1</button>
+      <button role="tab" aria-selected="false">탭2</button>
+    </div>
+
+    <!-- aria-describedby -->
+    <!-- 부가적 의미 전달 -->
+    <button aria-describedby="desc">삭제</button>
+    <p id="desc">이 버튼을 누르면 항목이 영구적으로 삭제됩니다.</p>
+  </body>
+</html>
