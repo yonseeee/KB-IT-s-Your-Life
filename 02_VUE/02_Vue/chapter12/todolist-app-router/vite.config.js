@@ -12,21 +12,11 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url)),
     },
   },
-
-  // 개발 시에만 동작
-  // 실제 백엔드 서버가 배포되어서 동작되어도 수정할 필요x
   server: {
     proxy: {
-      // api로 시작되는 요청
       '/api': {
-        target: 'http://localhost:3000', //json-server
+        target: 'http://localhost:3000',
         changeOrigin: true,
-        // 경로 수정
-        // /api로 시작하냐? 그럼 빈문자열로 바꿔라
-        // json-server에는 저 접두어가 없기 때문에
-        // ex. /api/todos  => /todos
-        //  / / 정규표현식을 나타내는 JS 리터럴
-        // ^로 시작
         rewrite: (path) => path.replace(/^\/api/, ''),
       },
     },

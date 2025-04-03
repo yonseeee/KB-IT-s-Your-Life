@@ -2,21 +2,36 @@
   <div>
     <div class="modal-overlay">
       <div class="modal-container">
-        <p>🎥</p>
-        <input type="text" placeholder="제목" v-model="status.title" /><br />
-        <input type="text" placeholder="연도" v-model="status.year" /><br />
-        <input type="text" placeholder="감독" v-model="status.director" /><br />
+        <p>✏️</p>
+        <input
+          type="text"
+          placeholder="제목"
+          v-model="props.movie.title"
+        /><br />
+        <input
+          type="text"
+          placeholder="연도"
+          v-model="props.movie.year"
+        /><br />
+        <input
+          type="text"
+          placeholder="감독"
+          v-model="props.movie.director"
+        /><br />
 
-        <textarea placeholder="줄거리" v-model="status.description"></textarea>
+        <textarea
+          placeholder="줄거리"
+          v-model="props.movie.description"
+        ></textarea>
         <br />
         <input
           type="text"
           placeholder="포스터 이미지 URL"
-          v-model="status.poster"
+          v-model="props.movie.poster"
         />
         <br />
         <div class="buttons">
-          <button @click="requestAPI">등록</button>
+          <button @click="requestAPI">저장</button>
           <button @click="closeHandler">닫기</button>
         </div>
       </div>
@@ -24,47 +39,28 @@
   </div>
 </template>
 <script setup>
-import { provide, ref, reactive } from 'vue';
 import axios from 'axios';
-
-const status = reactive({
-  year: '',
-  title: '',
-  director: '',
-  description: '',
-  poster: '',
-});
-// const year = ref('');
-// const title = ref('');
-// const director = ref('');
-// const content = ref('');
-// const image = ref('');
-
 const props = defineProps({
-  visible: { type: Boolean },
+  movie: { type: Object },
 });
-const emit = defineEmits(['movie-added', 'close']);
-
-const requestAPI = async () => {
-  const url = '/api/movies';
+const emit = defineEmits(['update-done', 'close']);
+const url = '/api/movies/';
+const requestAPI = () => {
   let data = {
-    title: status.title,
-    year: status.year,
-    director: status.director,
-    description: status.description,
-    poster: status.poster,
+    title: props.movie.title,
+    year: props.movie.year,
+    director: props.movie.director,
+    description: props.movie.director,
+    poster: props.movie.poster,
   };
-  const resp = await axios.post(url, data);
-  console.log(resp);
-
-  emit('movie-added');
+  axios.put(url + props.movie.id, data);
+  emit('update-done');
 };
 
 const closeHandler = () => {
   emit('close');
 };
 </script>
-
 <style scoped>
 .buttons {
   width: 100%;

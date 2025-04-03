@@ -1,34 +1,43 @@
 <template>
   <div>
-    <ul>
-      <li v-for="(movie, index) in movies" :key="index">
-        <router-link
-          class="link"
-          :to="{ name: 'movies/id', params: { id: movie.id } }"
-        >
-          🎬 {{ movie.title }} - {{ movie.director }}</router-link
-        >
-      </li>
-    </ul>
+    <div class="grid-container">
+      <MovieCard
+        v-for="(movie, index) in movies"
+        :key="index"
+        :movie="movie"
+        @edit-request="handleEditRequest"
+        @delete-request="deleteRequest"
+      />
+    </div>
   </div>
 </template>
 <script setup>
+import axios from 'axios';
 import { inject } from 'vue';
+import MovieCard from '@/components/MovieCard.vue';
+
+const emit = defineEmits(['edit-request', 'refresh']);
 const movies = inject('movieList');
+
+const handleEditRequest = (movie) => {
+  console.log('MovieList');
+  emit('edit-request', movie);
+};
+
+const url = '/api/movies/';
+const deleteRequest = async (id) => {
+  const isConfirmed = confirm(`정말 삭제하시겠습니까?`);
+  if (isConfirmed) {
+    await axios.delete(url + id);
+    alert('삭제 완료!');
+    emit('refresh');
+  }
+};
 </script>
 <style scoped>
-div {
-  color: white;
-  padding: 20px;
-}
-li {
-  margin: 10px;
-}
-p {
-  font-size: 2rem;
-}
-.link {
-  text-decoration: none;
-  color: gold;
+.grid-container {
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
 }
 </style>

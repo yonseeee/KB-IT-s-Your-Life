@@ -8,7 +8,9 @@ const requestAPI = async () => {
   const url = '/api/todos2';
   axios.get(url, { timeout: 900 }).then((response) => {
     console.log('#응답객체: ', response);
-  });
+  }).catch((e)=>{
+    
+  })
 };
 </script>
 <style></style>
