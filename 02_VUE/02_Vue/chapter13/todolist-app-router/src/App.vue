@@ -2,6 +2,7 @@
   <div class="container">
     <Header />
     <router-view></router-view>
+    <Loading v-if="isLoading" />
   </div>
 </template>
 
@@ -9,7 +10,14 @@
 //초기 데이터 준비
 
 import { computed } from 'vue';
+import Header from '@/components/Header.vue';
 import { useTodoListStore } from '@/stores/todoList.js';
+import Loading from '@/components/Loading.vue';
+
+const todoListStore = useTodoListStore();
+const isLoading = computed(() => todoListStore.isLoading);
+const fetchTodoList = todoListStore.fetchTodoList;
+fetchTodoList();
 
 // import { reactive, computed, provide } from 'vue';
 // import Header from '@/components/Header.vue';
