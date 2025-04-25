@@ -1,6 +1,4 @@
-package day1;
-
-import java.util.*;
+package week1;
 
 
 class Solution {
