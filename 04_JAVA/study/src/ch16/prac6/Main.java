@@ -2,11 +2,10 @@ package ch16.prac6;
 
 import java.util.HashSet;
 import java.util.Set;
-import java.util.function.Function;
 
 public class Main {
     public static void main(String[] args) {
-        Set<String> emotion=new HashSet<>();
+        Set<String> emotion = new HashSet<>();
         emotion.add("미안");
         emotion.add("사랑");
         emotion.add("소중");
@@ -16,5 +15,6 @@ public class Main {
         emotion.add("영원");
         emotion.add("믿어");
 
-        Function<String,Message> function=s -> Message::new;
+//        Function<String, Message> function = s -> Message::new;
+    }
 }
