@@ -80,3 +80,69 @@ select FLOOR(age/10)*10 as age_group, avg(age) as avg_age from players group by 
 select * FROM quiz_logs;
 select answered_at, SUM(CASE WHEN is_correct='O' THEN 1 ELSE 0 END)/COUNT(*) as accuracy from quiz_logs group by answered_at;
 select category, count(*) as count from quiz_words group by category with rollup;
+
+
+-- 3단계
+select word, difficulty from quiz_words where difficulty=(SELECT MAX(difficulty) from quiz_words);
+select * from quiz_words order by created_at desc limit 5;
+select * from players order by joined_at limit 1;
+select * from quiz_words where difficulty>(select avg(difficulty) from quiz_words);
+select * from game_sessions where total_score>=90;
+select * from reports where reported_at>= DATE_SUB(NOW(), INTERVAL 4 DAY) order by reported_at desc;
+select player_id, total_score from game_sessions
+where total_score=(select MAX(total_score) from game_sessions);
+select * from players order by age desc limit 3;
+
+select word, count(*) as cnt from reports group by word order by count(*) desc limit 1;
+select distinct player_nickname from quiz_logs where (select count(*) from quiz_logs where is_correct='O')>=1;
+
+insert into quiz_words 
+values(NULL, '마라탕', '음식', 1,'혀가 얼얼한 맛', '2025-05-14');
+
+SET SQL_SAFE_UPDATES = 0;
+update quiz_words
+set hint='힌트 없음'
+where hint is null;
+
+delete from players where region='제주';
+select * from quiz_words;
+
+update quiz_words
+set difficulty=4
+where word='마라탕';
+
+delete from players where nickname='민지';
+select * from players;
+
+delete from game_sessions where total_score>=90;
+select * from game_sessions;
+
+select * from quiz_logs;
+select * from quiz_words;
+
+select word
+from quiz_logs 
+group by word 
+having SUM(CASE WHEN is_correct='O' THEN 1 ELSE 0 END)/COUNT(*) < (select SUM(CASE WHEN is_correct='O' THEN 1 ELSE 0 END)/COUNT(*) from quiz_logs);
+
+delete from quiz_words
+where word IN (select word
+from quiz_logs 
+group by word 
+having SUM(CASE WHEN is_correct='O' THEN 1 ELSE 0 END)/COUNT(*) < (select SUM(CASE WHEN is_correct='O' THEN 1 ELSE 0 END)/COUNT(*) from quiz_logs));
+
+select * from quiz_words;
+
+
+select * from reports;
+select case when (select count(*) from reports where word='피카츄')>=3 THEN '주의' ELSE '양호' END as status ;
+
+select created_at, count(*) as count from quiz_words group by created_at having count(*)>=1;
+
+start transaction;
+insert into quiz_words values(NULL, '포켓몬빵', NULL, NULL, NULL, NULL);
+rollback;
+select*from quiz_words;
+
+delete from quiz_words where word='포켓몬빵';
+
