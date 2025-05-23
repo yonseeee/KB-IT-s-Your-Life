@@ -13,14 +13,22 @@ DESC employees;
 -- titles 테이블의 데이터 출력하기 
 SELECT * FROM titles;
 
-
+-- employees 테이블에서 first_name 컬럼만 출력하기
 SELECT first_name FROM employees;
+
+-- employees 테이블에서 first_name 컬럼, last_name컬럼, gender 컬럼만 출력하기
 SELECT first_name, last_name, gender FROM employees;
 SELECT * FROM employees;
+
+-- AS 생략가능
 SELECT first_name AS '이름', gender AS '성별', hire_date AS '회사 입사일' FROM employees;
 
 USE sqldb;
+
+-- usertbl 테이블에서 이름이 '김경호'인 행을 출력하세요. 
 SELECT * FROM usertbl WHERE name='김경호';
+
+
 SELECT * FROM usertbl WHERE birthYear>=1970 AND height>=182;
 SELECT * FROM usertbl WHERE height BETWEEN 180 AND 183;
 SELECT * FROM usertbl WHERE addr IN ('경남', '전남','경북');

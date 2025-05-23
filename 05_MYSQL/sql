@@ -1,0 +1,36 @@
+USE sqldb;
+SELECT userID AS '사용자 아이디', SUM(amount) AS '총 구매 개수' FROM buytbl GROUP BY userID;
+SELECT userID AS '사용자 아이디', SUM(price*amount) AS '총 구매액' FROM buytbl GROUP BY userID;
+
+SELECT AVG(amount) AS '평균 구매 개수' FROM buytbl;
+SELECT userID, AVG(amount) AS '평균 구매 개수' FROM buytbl GROUP BY userID;
+
+SELECT name, height FROM usertbl WHERE height=(SELECT MAX(height) FROM usertbl) OR height=(SELECT MIN(height) FROM usertbl);
+SELECT COUNT(*) AS '휴대폰이 있는 사용자' FROM usertbl WHERE mobile1 IS NOT NULL AND mobile2 IS NOT NULL;
+
+SELECT userID AS '사용자 아이디', SUM(price*amount) AS '총 구매액' FROM buytbl GROUP BY userID;
+SELECT userID AS '사용자 아이디', SUM(price*amount) AS '총 구매액' FROM buytbl GROUP BY userID HAVING SUM(price*amount)>=1000;
+
+USE world;
+SELECT SUM(Population) FROM city WHERE CountryCode='KOR';
+SELECT MIN(Population) AS '최소값' FROM city WHERE CountryCode='KOR';
+SELECT AVG(Population) FROM city WHERE CountryCode='KOR';
+SELECT MAX(Population) AS '최소값' FROM city WHERE CountryCode='KOR';
+SELECT * FROM country;
+SELECT char_length(Name) FROM country;
+SELECT CONCAT(UCASE(LEFT(Name,3)), SUBSTRING(Name, 4)) AS 'newName' FROM country;
+SELECT round(LifeExpectancy, 0) AS 'rounded lifeExpectancy' FROM country;
+
+USE employees;
+SELECT first_name, last_name, dept_no FROM dept_manager AS D, employees AS E, titles AS T WHERE D.emp_no=E.emp_no AND E.emp_no=T.emp_no AND T.to_date='9999-01-01';
+SELECT first_name, last_name, dept_no FROM dept_manager AS D, employees AS E, titles AS T WHERE D.emp_no=E.emp_no AND E.emp_no=T.emp_no AND dept_no='d005';
+SELECT * FROM titles;
+
+SELECT * FROM employees ORDER BY hire_date DESC LIMIT 140, 20;
+
+SELECT COUNT(*) AS '재직자 수' FROM titles where to_date='9999-01-01';
+SELECT COUNT(*) AS '재직자 수' FROM titles where to_date='9999-01-01';
+SELECT * FROM titles AS T, employees AS E where T.emp_no=E.emp_no AND to_date='9999-01-01';
+SELECT E.first_name, E.last_name, S.salary FROM salaries AS S, employees AS E WHERE S.emp_no=E.emp_no AND salary>(SELECT AVG(salary) AS '재직자 평균 급여' FROM salaries WHERE to_date='9999-01-01');
+
+SELECT D.dept_no, COUNT(*) AS '부서별 재직자 수' FROM dept_emp AS D, employees AS E WHERE (D.emp_no=E.emp_no AND to_date='9999-01-01') GROUP BY dept_no order by dept_no;
