@@ -1,11 +1,9 @@
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
-<head>
-    <title>Title</title>
-</head>
-<body>
+
 <%@ include file="header.jsp"%>
+<body>
+
 
     <form action="pastLifeResult.jsp" method="post">
         이름: <input type="text" name="username" required>
@@ -84,6 +82,7 @@
         <br><br>
         <input type="submit" value="전생 보러 가기 💫">
     </form>
-<%@ include file="footer.jsp"%>
 </body>
+
+<%@ include file="footer.jsp"%>
 </html>

@@ -1,3 +1,4 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <%@ include file="header.jsp"%>
 <body>
@@ -79,4 +80,5 @@
     <a href="pastLifeTest.jsp">🔄 다시 테스트하러 가기</a>
 <% }%>
 </body>
+<%@ include file="footer.jsp"%>
 </html>
