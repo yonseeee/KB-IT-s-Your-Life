@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--Mapper인터페이스와 정확히 일치하는 경로 지정-->
+<mapper namespace="org.scoula.mapper.TimeMapper">
+    <select id="getTime2" resultType="java.lang.String">
+        select sysdate()
+    </select>
+</mapper>
