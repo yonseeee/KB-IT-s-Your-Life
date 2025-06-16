@@ -1,9 +1,10 @@
-package org.scoula.stock.domain;
+package org.scoula.stock.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.scoula.stock.domain.StockVO;
 
 import java.util.Date;
 

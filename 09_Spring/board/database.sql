@@ -61,3 +61,11 @@ CREATE TABLE tbl_board_attachment
     reg_date     DATETIME DEFAULT now(),
     CONSTRAINT FOREIGN KEY (bno) REFERENCES tbl_board (no)
 );
+
+CREATE TABLE tbl_buy (
+                         id BIGINT AUTO_INCREMENT PRIMARY KEY,
+                         stock_code VARCHAR(20) NOT NULL,
+                         stock_name VARCHAR(100) NOT NULL,
+                         price INT NOT NULL,
+                         buy_date DATETIME DEFAULT CURRENT_TIMESTAMP
+);

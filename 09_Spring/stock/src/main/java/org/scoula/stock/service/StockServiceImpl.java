@@ -1,9 +1,8 @@
 package org.scoula.stock.service;
 
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.scoula.stock.domain.StockDTO;
+import org.scoula.stock.dto.StockDTO;
 import org.scoula.stock.mapper.StockMapper;
 import org.springframework.stereotype.Service;
 
