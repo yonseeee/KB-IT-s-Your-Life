@@ -32,7 +32,7 @@ public class BoardAttachmentVO {
                 .size(part.getSize())
                 .build();
     }
-// 해당 메소드가 getter처럼 사용돼서 fileSize가 읽기전용 프로퍼티로 제공
+
     public String getFileSize(){
         return UploadFiles.getFormatSize(size);
     }

@@ -29,7 +29,7 @@
     <select id="getAttachment" resultType="org.scoula.board.domain.BoardAttachmentVO">
         select *
         from tbl_board_attachment
-        where no = #{no}
+        where no=#{no}
     </select>
 
     <!-- 게시글 등록 + 자동 증가 키 반영 -->
