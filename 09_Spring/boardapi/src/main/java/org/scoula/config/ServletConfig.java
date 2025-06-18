@@ -25,8 +25,18 @@ public class ServletConfig implements WebMvcConfigurer {
         registry
                 .addResourceHandler("/resources/**") // 요청 URL 경로
                 .addResourceLocations("/resources/"); // 실제 리소스 위치
-        registry.addResourceHandler("/favicon.ico")
-                .addResourceLocations("/resources/favicon.ico");
+//        registry.addResourceHandler("/favicon.ico")
+//                .addResourceLocations("/resources/favicon.ico");
+
+        registry.addResourceHandler("/swagger-ui.html")
+                .addResourceLocations("classpath:/META-INF/resources/");
+
+        registry.addResourceHandler("/webjars/**")
+                .addResourceLocations("classpath:/META-INF/resources/webjars/");
+        registry.addResourceHandler("/swagger-resources/**")
+                .addResourceLocations("classpath:/META-INF/resources/**");
+        registry.addResourceHandler("/v2/api-docs")
+                .addResourceLocations("classpath:/META-INF/resources");
     }
 
     // JSP ViewResolver 설정

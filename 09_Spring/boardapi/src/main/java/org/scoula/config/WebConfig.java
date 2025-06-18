@@ -22,14 +22,14 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
     // 서블릿 어플리케이션 설정 (Controller, ViewResolver 등)
     @Override
     protected Class<?>[] getServletConfigClasses() {
-        return new Class[]{ServletConfig.class};
+        return new Class[]{ServletConfig.class, SwaggerConfig.class};
     }
 
     // DispatcherServlet의 URL 매핑
     @Override
     protected String[] getServletMappings() {
         // 모든 요청을 DispatcherServlet이 처리
-        return new String[]{"/"};
+        return new String[]{"/","/swagger-ui.html","/swagger-resources/**","/v2/api-docs","/webjars/**"};
     }
 
     // 한글 POST 요청 인코딩 필터 설정

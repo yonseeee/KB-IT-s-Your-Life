@@ -14,6 +14,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
 
@@ -26,6 +27,7 @@ import javax.sql.DataSource;
 @PropertySource("classpath:/application.properties") // 설정 파일 위치 지정
 @ComponentScan(basePackages = {"org.scoula.board.service"}) // 비즈니스 로직(Service) 자동 등록
 @MapperScan(basePackages = {"org.scoula.board.mapper"}) // Mapper 인터페이스 검색용
+@EnableTransactionManagement
 public class RootConfig {
 
     // application.properties에서 값 주입
