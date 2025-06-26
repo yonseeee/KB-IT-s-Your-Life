@@ -35,6 +35,8 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 
         CustomUser user = (CustomUser) authentication.getPrincipal();
         AuthResultDTO result=makeAuthResult(user);
+
+//        Json 응답 전송
         JsonResponse.send(response, result);
     }
 }

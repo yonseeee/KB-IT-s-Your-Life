@@ -4,11 +4,12 @@ package org.scoula.security.config;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.mybatis.spring.annotation.MapperScan;
-import org.scoula.security.filter.JwtUsernamePasswordAuthenticationFilter;
+import org.scoula.security.filter.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -36,9 +37,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     //    DB 기반 인증 처리를 위한 서비스(in-memory방식과 병행 x)
     private final UserDetailsService userDetailsService;
-
+    private final JwtAuthenticationFilter jwtAuthenticationFilter;
+    private final AuthenticationErrorFilter authenticationErrorFilter;
     @Autowired
     private JwtUsernamePasswordAuthenticationFilter jwtUsernamePasswordAuthenticationFilter;
+
+    private final CustomAccessDeniedHandler accessDeniedHandler;
+    private final CustomAuthenticationEntryPoint authenticationEntryPoint;
 
     public CharacterEncodingFilter encodingFilter() {
         CharacterEncodingFilter encodingFilter = new CharacterEncodingFilter();
@@ -83,8 +88,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http.addFilterBefore(encodingFilter(), CsrfFilter.class)
+                .addFilterBefore(authenticationErrorFilter,UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(jwtUsernamePasswordAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
+        http.exceptionHandling()
+                        .authenticationEntryPoint(authenticationEntryPoint)
+                                .accessDeniedHandler(accessDeniedHandler);
+
+        http
+                .authorizeRequests()
+                        .antMatchers(HttpMethod.OPTIONS).permitAll()
+                        .antMatchers("/api/security/all").permitAll()
+                        .antMatchers("/api/security/member").access("hasRole('ROLE_MEMBER')")
+                        .antMatchers("/api/security/admin").access("hasRole('ROLE_ADMIN')")
+                        .anyRequest().authenticated();
         http
                 .httpBasic().disable()//기본 HTTP 인증 비활성화
                 .csrf().disable()//CSRF 보호 비활성화
