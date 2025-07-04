@@ -34,14 +34,14 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
     }
 
 //    한글 POST 요청 인코딩 필터 설정
-    @Override
-    protected Filter[] getServletFilters() {
-        CharacterEncodingFilter characterEncodingFilter = new CharacterEncodingFilter();
-        characterEncodingFilter.setEncoding("UTF-8");
-        characterEncodingFilter.setForceEncoding(true);
-        return new Filter[]{characterEncodingFilter};
-
-    }
+//    @Override
+//    protected Filter[] getServletFilters() {
+//        CharacterEncodingFilter characterEncodingFilter = new CharacterEncodingFilter();
+//        characterEncodingFilter.setEncoding("UTF-8");
+//        characterEncodingFilter.setForceEncoding(true);
+//        return new Filter[]{characterEncodingFilter};
+//
+//    }
 
     @Override
     protected void customizeRegistration(ServletRegistration.Dynamic registration) {

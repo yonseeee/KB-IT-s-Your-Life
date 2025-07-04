@@ -23,8 +23,14 @@ import java.sql.Connection;
 
 @Configuration
 @PropertySource({"classpath:/application.properties"})//설정 파일 위치 지정
-@MapperScan(basePackages = {"org.scoula.board.mapper"})//Mapper 인터페이스 검색용
-@ComponentScan(basePackages = {"org.scoula.board.service"})
+@MapperScan(basePackages = {
+        "org.scoula.board.mapper",
+        "org.scoula.member.mapper"
+})//Mapper 인터페이스 검색용
+@ComponentScan(basePackages = {
+        "org.scoula.board.service",
+        "org.scoula.member.service"
+})
 @Log4j2
 @EnableTransactionManagement
 public class RootConfig {
@@ -59,10 +65,10 @@ public class RootConfig {
 //        커넥션 풀
         sqlSessionFactory.setDataSource(dataSource());//실행은 딱 한 번 실행
 
-        return(SqlSessionFactory)sqlSessionFactory.getObject();
+        return (SqlSessionFactory) sqlSessionFactory.getObject();
     }
 
-//    트랜잭션 매니저 등록
+    //    트랜잭션 매니저 등록
     @Bean
     public DataSourceTransactionManager transactionManager() {
         //proxy의 datasource를 호출

@@ -24,25 +24,26 @@ import java.util.List;
 @ApiModel(description = "게시글 DTO")
 public class BoardDTO {
 
-    @ApiModelProperty(value="게시글 ID", example = "1")
+    @ApiModelProperty(value = "게시글 ID", example = "1")
     private Long no;
 
-    @ApiModelProperty(value="제목")
+    @ApiModelProperty(value = "제목")
     private String title;
 
-    @ApiModelProperty(value="글 본문")
+    @ApiModelProperty(value = "글 본문")
     private String content;
 
-    @ApiModelProperty(value="작성자")
+    @ApiModelProperty(value = "작성자")
     private String writer;
 
-    @ApiModelProperty(value="등록일")
+    @ApiModelProperty(value = "등록일")
     private Date regDate;
 
-    @ApiModelProperty(value="수정일")
+    @ApiModelProperty(value = "수정일")
     private Date updateDate;
 
-@ApiModelProperty(value="첨부파일 목록")
+    //테이블을 위한 List
+    @ApiModelProperty(value = "첨부파일 목록")
     private List<BoardAttachmentVO> attaches;
 
     //    실제 업로드된 파일(Multipart) 목록

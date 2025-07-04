@@ -20,12 +20,7 @@
     <!--        where no = #{no}-->
     <!--    </select>-->
 
-    <select id="getAttachmentList" resultType="org.scoula.board.domain.BoardAttachmentVO">
-        select *
-        from tbl_board_attachment
-        where bno = #{bno}
-        order by filename
-    </select>
+
     <select id="getAttachment" resultType="org.scoula.board.domain.BoardAttachmentVO">
         select *
         from tbl_board_attachment
@@ -36,17 +31,11 @@
     <insert id="create">
         insert into tbl_board (title, content, writer)
         values (#{title}, #{content}, #{writer})
-
         <!-- 자동 생성된 PK 값을 BoardVO.no에 저장 -->
         <selectKey resultType="Long" keyProperty="no" keyColumn="no" order="AFTER">
             SELECT LAST_INSERT_ID()
         </selectKey>
     </insert>
-    <insert id="createAttachment">
-        insert into tbl_board_attachment(filename, path, content_type, size, bno)
-        values (#{filename}, #{path}, #{contentType}, #{size}, #{bno})
-    </insert>
-
     <!-- 게시글 수정 -->
     <update id="update">
         update tbl_board
@@ -63,17 +52,32 @@
         from tbl_board
         where no = #{no}
     </delete>
+
+
+    <insert id="createAttachment">
+        insert into tbl_board_attachment(filename, path, content_type, size, bno)
+        values (#{filename}, #{path}, #{contentType}, #{size}, #{bno})
+    </insert>
+
+    <select id="getAttachmentList" resultType="org.scoula.board.domain.BoardAttachmentVO">
+        select *
+        from tbl_board_attachment
+        where bno = #{bno}
+        order by filename
+    </select>
+
     <delete id="deleteAttachment">
         delete
         from tbl_board_attachment
         where no =#{no}
     </delete>
+
+
     <resultMap id="attachmentMap" type="org.scoula.board.domain.BoardAttachmentVO">
         <id column="ano" property="no"/>
         <result column="bno" property="bno"/>
         <result column="filename" property="filename"/>
-        <result column="path"
-                property="path"/>
+        <result column="path" property="path"/>
         <result column="contentType" property="contentType"/>
         <result column="size" property="size"/>
         <result column="a_reg_date" property="regDate"/>
@@ -101,4 +105,12 @@
                  left outer join tbl_board_attachment a on b.no = a.bno
         where b.no = #{no}
         order by filename </select>
+    <select id="getTotalCount" resultType="java.lang.Integer">
+        select count(*) from tbl_board;
+    </select>
+    <select id="getPage" resultType="org.scoula.board.domain.BoardVO">
+        select * from tbl_board order by no desc
+        limit #{offset}, #{amount}
+    </select>
+
 </mapper>

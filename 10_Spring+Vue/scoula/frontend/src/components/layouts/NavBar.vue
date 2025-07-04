@@ -15,7 +15,7 @@ const toggleNavShow = () => {
 </script>
 
 <template>
-  <nav class="navbar navbar-expand-sm bg-primary navbar0dark">
+  <nav class="navbar navbar-expand-sm bg-primary navbar-dark">
     <div class="container-fluid">
       <router-link class="navbar-brand" to="/">
         <i class="fa-solid fa-house"></i> Scoula

@@ -17,15 +17,6 @@ import javax.servlet.http.HttpServletRequest;
 @Order(1)
 public class CommonExceptionAdvice {
 
-    @ExceptionHandler(Exception.class)//Exception(모든 예외)을 처리하겠다
-    public String except(Exception ex, Model model){
-        log.error(("Exception......"+ex.getMessage()));
-//        Model로 예외 객체를 뷰에 전달
-        model.addAttribute("exception", ex);
-        log.error(model);
-        return "error_page";//뷰 이름
-    }
-
     @ExceptionHandler(NoHandlerFoundException.class)
     public String handle404(NoHandlerFoundException ex){
         return "/resources/index.html";

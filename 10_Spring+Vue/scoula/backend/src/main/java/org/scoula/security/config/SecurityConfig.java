@@ -64,7 +64,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
 
-//    Cors
+    //    Cors
     @Bean
     public CorsFilter corsFilter() {//자동으로 적용
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
@@ -77,7 +77,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return new CorsFilter(source);
     }
 
-//    정적 리소스 및 인증 제외 경로 설정
+    //    정적 리소스 및 인증 제외 경로 설정
     @Override
     public void configure(WebSecurity web) throws Exception {//보안체크하지 마라
         web.ignoring().antMatchers("/assets/**", //정적 리소스
@@ -85,25 +85,30 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 "/api/member/**",// 회원가입 등 비인증 API
 
 //                Swagger 관련 리소스
-                "/swagger-ui.html","/webjars/**","/swagger-resources/**","/v2/api-docs"
+                "/swagger-ui.html", "/webjars/**", "/swagger-resources/**", "/v2/api-docs"
         );
     }
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http.addFilterBefore(encodingFilter(), CsrfFilter.class)
-                .addFilterBefore(authenticationErrorFilter,UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(authenticationErrorFilter, UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(jwtUsernamePasswordAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         http.exceptionHandling()
-                        .authenticationEntryPoint(authenticationEntryPoint)
-                                .accessDeniedHandler(accessDeniedHandler);
+                .authenticationEntryPoint(authenticationEntryPoint)
+                .accessDeniedHandler(accessDeniedHandler);
 
         http
                 .authorizeRequests()
-                        .antMatchers(HttpMethod.OPTIONS).permitAll()
-                        .anyRequest().permitAll();
+                .antMatchers(HttpMethod.OPTIONS).permitAll()
+//                .antMatchers(HttpMethod.POST, "/api/member").permitAll()
+                .antMatchers(HttpMethod.PUT, "/api/member/*", "/api/member/*/changepassword").authenticated()
+                .antMatchers(HttpMethod.POST, "/api/board/**").authenticated()
+                .antMatchers(HttpMethod.PUT, "/api/board/**").authenticated()
+                .antMatchers(HttpMethod.DELETE, "/api/board/**").authenticated()
+                .anyRequest().permitAll();
 
         http
                 .httpBasic().disable()//기본 HTTP 인증 비활성화
@@ -113,15 +118,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 sessionCreationPolicy(SessionCreationPolicy.STATELESS);//세션 사용 안함(JWT 기반 인증 대응)
     }
 
-//인증 매니저 구성: 사용자 정보와 패스워드 인코더 설정
+    //인증 매니저 구성: 사용자 정보와 패스워드 인코더 설정
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 //        DB에서 사용자 정보를 조회하고, 해시된 비밀번호를
         auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
 
     }
-
-
 
 
 }

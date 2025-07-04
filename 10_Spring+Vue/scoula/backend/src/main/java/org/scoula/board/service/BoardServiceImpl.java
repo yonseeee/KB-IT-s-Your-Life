@@ -6,11 +6,14 @@ import org.scoula.board.domain.BoardAttachmentVO;
 import org.scoula.board.domain.BoardVO;
 import org.scoula.board.dto.BoardDTO;
 import org.scoula.board.mapper.BoardMapper;
+import org.scoula.common.pagination.Page;
+import org.scoula.common.pagination.PageRequest;
 import org.scoula.common.util.UploadFiles;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -52,7 +55,6 @@ public class BoardServiceImpl implements BoardService {
         if (files != null && !files.isEmpty()) {
             upload(vo.getNo(), files);
         }
-
         return get(vo.getNo());
     }
 
@@ -63,7 +65,7 @@ public class BoardServiceImpl implements BoardService {
                 String uploadPath = UploadFiles.upload(BASE_DIR, part);
                 BoardAttachmentVO attach = BoardAttachmentVO.of(part, bno, uploadPath);
                 mapper.createAttachment(attach);
-            } catch (Exception e) {
+            } catch (IOException e) {
                 throw new RuntimeException(e);
             }
         }
@@ -72,8 +74,13 @@ public class BoardServiceImpl implements BoardService {
     @Override
     public BoardDTO update(BoardDTO board) {
         log.info("update........." + board);
-        mapper.update(board.toVo());
-        // update SQL 실행 후 변경된 행이 1개면 true 반환
+        BoardVO boardVO=board.toVo();
+        mapper.update(boardVO);
+
+        List<MultipartFile> files=board.getFiles();
+        if(files!=null && !files.isEmpty()){
+            upload(board.getNo(), files);
+        }
         return get(board.getNo());
     }
 
@@ -83,13 +90,6 @@ public class BoardServiceImpl implements BoardService {
         log.info("delete.........." + no);
         BoardDTO board = get(no);
 
-//        해당 게시글의 첨부파일 목록 가져오기
-        List<BoardAttachmentVO> attachList=mapper.getAttachmentList(no);
-
-//        첨부파일 목록 돌면서 첨부파일들 삭제
-        for(BoardAttachmentVO attach:attachList){
-            mapper.deleteAttachment(attach.getNo());
-        }
 //        게시글 삭제
         mapper.delete(no);
         return board;
@@ -97,12 +97,20 @@ public class BoardServiceImpl implements BoardService {
 
     @Override
     public BoardAttachmentVO getAttachment(Long no) {
-
         return mapper.getAttachment(no);
     }
 
     @Override
     public boolean deleteAttachment(Long no) {
         return mapper.deleteAttachment(no) == 1;
+    }
+
+    @Override
+    public Page<BoardDTO> getPage(PageRequest pageRequest) {
+        List<BoardVO> boards=mapper.getPage(pageRequest);
+        int totalCount=mapper.getTotalCount();
+
+        //VO->DTO
+        return Page.of(pageRequest, totalCount, boards.stream().map(BoardDTO::of).toList());
     }
 }

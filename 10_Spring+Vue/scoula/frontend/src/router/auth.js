@@ -12,6 +12,7 @@ export default [
   {
     path: '/auth/profile',
     name: 'profile',
+    component: () => import('../pages/auth/ProfilePage.vue'),
   },
   {
     path: '/auth/changepassword',
